@@ -1,24 +1,28 @@
-﻿using System.Text;
+﻿using Core.Services;
+using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace Desktop
+public partial class MainWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    private readonly RomManager _romManager;
+
+    public MainWindow()
     {
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+
+        _romManager = App.ServiceProvider.GetRequiredService<RomManager>();
+    }
+
+    private void InitializeComponent()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void OpenRom(string path)
+    {
+        var meta = _romManager.Detect(path);
+        var data = _romManager.Extract(path);
+
+        MessageBox.Show($"Juego detectado: {meta.Title}");
     }
 }

@@ -3,7 +3,7 @@ using GameAbstractions.Models;
 
 namespace GBA
 {
-    public class GbaHandler
+    public class GbaHandler : IGameHandler
     {
         public bool CanHandle(string romPath)
         {
