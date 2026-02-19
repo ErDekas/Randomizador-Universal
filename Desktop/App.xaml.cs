@@ -1,28 +1,36 @@
-﻿using Core.Services;
-using Desktop;
+﻿using System.Windows;
+using Microsoft.Extensions.DependencyInjection;
+using Core.Services;
 using GameAbstractions.Interfaces;
 using GBA;
-using Microsoft.Extensions.DependencyInjection;
-using System.Windows;
+
+namespace Desktop;
 
 public partial class App : Application
 {
-    public static ServiceProvider ServiceProvider { get; private set; }
+    public static IServiceProvider Services { get; private set; } = null!;
 
     protected override void OnStartup(StartupEventArgs e)
     {
         var services = new ServiceCollection();
+        ConfigureServices(services);
+        Services = services.BuildServiceProvider();
 
+        var mainWindow = Services.GetRequiredService<MainWindow>();
+        mainWindow.Show();
+    }
+
+
+    private void ConfigureServices(IServiceCollection services)
+    {
         // Handlers
         services.AddSingleton<IGameHandler, GbaHandler>();
 
-        // Core
+        // Core services
         services.AddSingleton<GameDetector>();
         services.AddSingleton<RomManager>();
 
-        ServiceProvider = services.BuildServiceProvider();
-
-        var mainWindow = new MainWindow();
-        mainWindow.Show();
+        // Main Window
+        services.AddSingleton<MainWindow>();
     }
 }

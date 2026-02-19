@@ -16,6 +16,7 @@
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\GameAbstractions\GameAbstractions.csproj" />
     <ProjectReference Include="..\GBA\GBA.csproj" />
+    <ProjectReference Include="..\Randomization\Randomization.csproj" />
   </ItemGroup>
 
 </Project>

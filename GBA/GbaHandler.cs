@@ -7,8 +7,23 @@ namespace GBA
     public class GbaHandler : IGameHandler
     {
         public bool CanHandle(string romPath)
-            => Path.GetExtension(romPath)
-                .Equals(".gba", StringComparison.OrdinalIgnoreCase);
+        {
+            if (!romPath.EndsWith(".gba", StringComparison.OrdinalIgnoreCase))
+                return false;
+
+            using var stream = new FileStream(romPath, FileMode.Open, FileAccess.Read);
+            using var reader = new BinaryReader(stream);
+
+            stream.Seek(0xAC, SeekOrigin.Begin);
+            string code = Encoding.ASCII.GetString(reader.ReadBytes(4));
+
+            stream.Seek(0xBC, SeekOrigin.Begin);
+            byte revision = reader.ReadByte();
+
+            // Solo comprobar código, no revision
+            return code == "BPRE";
+        }
+
 
         public GameMetaData Detect(string romPath)
         {
@@ -47,13 +62,16 @@ namespace GBA
         }
 
 
-        public void Rebuild(GameData data, string outputPath)
+        public void Rebuild(GameData data, string outputPath, string originalRomPath)
         {
-            using var stream = new FileStream(outputPath, FileMode.Open, FileAccess.Write);
+            File.Copy(originalRomPath, outputPath, true);
+
+            using var stream = new FileStream(outputPath, FileMode.Open, FileAccess.ReadWrite);
             using var writer = new BinaryWriter(stream);
 
             WriteBaseStats(writer, data);
         }
+
 
 
 
@@ -160,7 +178,7 @@ namespace GBA
             for (int i = 0; i < FireRedRomInfo.PokemonCount; i++)
             {
                 uint pointer = reader.ReadUInt32();
-                long moveTableOffset = pointer - 0x08000000;
+                long moveTableOffset = GbaPointerHelper.ToOffset(pointer);
 
                 long returnPosition = reader.BaseStream.Position;
 

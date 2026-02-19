@@ -1,12 +1,26 @@
 ﻿<Window x:Class="Desktop.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Desktop"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Universal Pokémon Randomizer" Height="400" Width="400">
+    <ScrollViewer>
+        <StackPanel Margin="20" Orientation="Vertical" >
 
-    </Grid>
+            <TextBox x:Name="RomPathTextBox" Width="250" IsReadOnly="True"/>
+            <Button Content="..." Width="30" Click="BrowseRomButton_Click"/>
+
+            <TextBox x:Name="OutputPathTextBox" Width="250" IsReadOnly="True"/>
+            <Button Content="..." Width="30" Click="BrowseOutputButton_Click"/>
+
+            <TextBlock Text="Seed:" Margin="0,5"/>
+            <TextBox x:Name="SeedTextBox" Width="100" Text="12345"/>
+
+            <CheckBox x:Name="BaseStatsCheckBox" Content="Randomize Base Stats" IsChecked="True" Margin="0,5"/>
+            <CheckBox x:Name="TypesCheckBox" Content="Randomize Types" Margin="0,5"/>
+            <CheckBox x:Name="AbilitiesCheckBox" Content="Randomize Abilities" Margin="0,5"/>
+            <CheckBox x:Name="StartersCheckBox" Content="Randomize Starters" Margin="0,5"/>
+            <CheckBox x:Name="MovesCheckBox" Content="Randomize Level Up Moves" Margin="0,5"/>
+
+            <Button Content="Randomize" Width="120" Margin="0,10" Click="RandomizeButton_Click"/>
+        </StackPanel>
+    </ScrollViewer>
 </Window>

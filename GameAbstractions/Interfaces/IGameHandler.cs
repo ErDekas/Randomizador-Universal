@@ -10,6 +10,6 @@ namespace GameAbstractions.Interfaces
 
         GameData Extract(string romPath);
 
-        void Rebuild(GameData data, string outputPath);
+        void Rebuild(GameData data, string outputPath, string originalRomPath);
     }
 }

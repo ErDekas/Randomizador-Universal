@@ -22,10 +22,10 @@ namespace Core.Services
             return handler.Extract(romPath);
         }
 
-        public void Rebuild (string romPath, GameData data, string outputPath)
+        public void Rebuild (GameData data, string outputPath,string originalRomPath)
         {
-            var handler = _detector.DetectHandler(romPath);
-            handler.Rebuild(data, outputPath);
+            var handler = _detector.DetectHandler(originalRomPath);
+            handler.Rebuild(data, outputPath, originalRomPath);
         }
     }
 }
